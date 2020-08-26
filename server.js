@@ -1,9 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt-nodejs');
+const cors = require('cors');
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 // Will change this once we add a database
 const database = {
@@ -27,7 +30,7 @@ const database = {
     ]
 };
 
-
+// Root route
 app.get('/', (req, res) => {
     res.send(database.users);
 });
