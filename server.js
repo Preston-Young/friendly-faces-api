@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 const database = {
     users: [
         {
-            id: 123,
+            id: "123",
             name: "Preston",
             email: "pcyoung@uci.edu",
             password: "peepee",
@@ -17,7 +17,7 @@ const database = {
             joined: new Date()
         },
         {
-            id: 111,
+            id: "111",
             name: "Nicholas",
             email: "snydern2000@gmail.com",
             password: "daisy",
@@ -47,7 +47,7 @@ app.post('/register', (req, res) => {
     const { email, password, name } = req.body;
     database.users.push(
         {
-            id: 222,
+            id: "222",
             name: name,
             email: email,
             password: password,
@@ -56,6 +56,37 @@ app.post('/register', (req, res) => {
         }
     );
     res.json(database.users[database.users.length-1]);
+});
+
+// Profile route
+app.get('/profile/:id', (req, res) => {
+    const {id} = req.params;
+    let found = false;
+    database.users.forEach(user => {
+        if (user.id === id){
+            found = true;
+            return res.json(user);
+        }
+    });
+    if (!found) {
+        res.status(404).json("no such user");
+    }
+});
+
+// Image route
+app.post('/image', (req, res) => {
+    const {id} = req.body;
+    let found = false;
+    database.users.forEach(user => {
+        if (user.id === id){
+            found = true;
+            user.entries++;
+            return res.json(user.entries);
+        }
+    });
+    if (!found) {
+        res.status(404).json("no such user");
+    }
 });
 
 
