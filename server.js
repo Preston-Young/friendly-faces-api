@@ -1,6 +1,9 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
+
+app.use(bodyParser.json());
 
 // Will change this once we add a database
 const database = {
@@ -12,17 +15,47 @@ const database = {
             password: "peepee",
             entries: 0,
             joined: new Date()
+        },
+        {
+            id: 111,
+            name: "Nicholas",
+            email: "snydern2000@gmail.com",
+            password: "daisy",
+            entries: 0,
+            joined: new Date()
         }
     ]
 };
 
 
 app.get('/', (req, res) => {
-    res.send('Everything is working');
+    res.send(database.users);
 });
 
+// Sign in route
 app.post('/signin', (req, res) => {
-    res.json('Signing In');
+    if (req.body.email === database.users[0].email &&
+        req.body.password === database.users[0].password) {
+            res.json("Success");
+        } else {
+            res.status(404).json("Error logging in");
+        }
+});
+
+// Register route
+app.post('/register', (req, res) => {
+    const { email, password, name } = req.body;
+    database.users.push(
+        {
+            id: 222,
+            name: name,
+            email: email,
+            password: password,
+            entries: 0,
+            joined: new Date()
+        }
+    );
+    res.json(database.users[database.users.length-1]);
 });
 
 
