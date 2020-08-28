@@ -12,10 +12,6 @@ const db = require('knex')({
     }
 });
 
-db.select('*').from('users').then(data => {
-    console.log(data);
-});
-
 const app = express();
 
 app.use(bodyParser.json());
@@ -77,7 +73,6 @@ app.post('/register', (req, res) => {
 // Profile route
 app.get('/profile/:id', (req, res) => {
     const {id} = req.params;
-    let found = false;
     db.select('*').from('users')
     .where({id})
     .then(user => {
@@ -88,25 +83,22 @@ app.get('/profile/:id', (req, res) => {
         }
     })
     .catch(err => res.status(404).json("error getting user"));
-    // if (!found) {
-    //     res.status(404).json("no such user");
-    // }
 });
 
 // Image route
 app.put('/image', (req, res) => {
     const {id} = req.body;
-    let found = false;
-    database.users.forEach(user => {
-        if (user.id === id){
-            found = true;
-            user.entries++;
-            return res.json(user.entries);
+    db('users').where({id})
+    .increment('entries', 1)
+    .returning('entries')
+    .then(entries => {
+        if (entries.length) {
+            res.json(entries[0]);
+        } else {
+            res.status(404).json("no such user");
         }
-    });
-    if (!found) {
-        res.status(404).json("no such user");
-    }
+    })
+    .catch(err => res.status(404).json("unable to get entries"));
 });
 
 
