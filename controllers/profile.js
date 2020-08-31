@@ -9,7 +9,7 @@ const handleProfile = (req, res, db) => {
             res.status(404).json("no such user");
         }
     })
-    .catch(err => res.status(404).json("error getting user"));
+    .catch(err => res.status(400).json("error getting user"));
 }
 
 module.exports = {
