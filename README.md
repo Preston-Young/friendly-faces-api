@@ -1,4 +1,4 @@
-# Friendly Faces
+# Friendly Faces (Back End)
 
 This is the REST API I created for my first full stack web app: Friendly Faces.
 
