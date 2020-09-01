@@ -5,7 +5,7 @@ const cors = require('cors');
 const db = require('knex')({
     client: 'pg',
     connection: {
-      host : '127.0.0.1',
+      host : 'postgresql-spherical-51940',
       user : 'prestonyoung',
       password : '',
       database : 'friendly-faces-db'
@@ -24,6 +24,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+// Root route
+app.get('/', (req, res) => {res.send('Everything is working fine')});
 
 // Sign in route
 app.post('/signin', (req, res) => {signin.handleSignin(req, res, db, bcrypt)});
