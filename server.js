@@ -5,10 +5,8 @@ const cors = require('cors');
 const db = require('knex')({
     client: 'pg',
     connection: {
-      host : 'postgresql-spherical-51940',
-      user : 'prestonyoung',
-      password : '',
-      database : 'friendly-faces-db'
+      host : process.env.DATABASE_URL,
+      ssl: true
     }
 });
 
