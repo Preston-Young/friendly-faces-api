@@ -2,13 +2,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
-const db = require('knex')({
+const knex = require('knex');
+
+const db = knex({
     client: 'pg',
     connection: {
       connectionString : process.env.DATABASE_URL,
       ssl: true
     }
 });
+
+
 
 // Route Handler Functions
 const signin = require('./controllers/signin');
